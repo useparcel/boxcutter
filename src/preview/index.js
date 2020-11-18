@@ -117,7 +117,6 @@ function OverlayContainer({ children }) {
         style={{
           height: max(window.scrollHeight, window.height),
           width: max(window.scrollWidth, window.width),
-          border: "3px solid blue",
           boxSizing: "border-box",
           minHeight: "100%",
           minWidth: "100%",
