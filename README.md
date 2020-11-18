@@ -361,7 +361,7 @@ import { ToolTip } from "@useparcel/boxcutter";
     height: 50,
   }}
   options={{
-    mirrorTargetVisibility: true
+    mirrorTargetVisibility: true,
   }}
   style={{
     background: "#000",
@@ -553,15 +553,15 @@ React hook to listen for boxcutter events emitted from the preview. See [`boxcut
 **Usage:**
 
 ```js
-import { useBoxcutterEvent } from '@useparcel/boxcutter'
+import { useBoxcutterEvent } from "@useparcel/boxcutter";
 
 function RenderMeInsideBoxcutter() {
-  useBoxcutterEvent('load', () => {
+  useBoxcutterEvent("load", () => {
     // the preview loaded
-  })
+  });
 
-  useBoxcutterEvent('my-event', () => {
+  useBoxcutterEvent("my-event", () => {
     // the custom boxcutter event fired
-  })
+  });
 }
 ```
