@@ -7,7 +7,8 @@
   "scripts": {
     "test": "jest",
     "dev": "npx webpack --mode production --watch",
-    "build": "npx webpack --mode production"
+    "build": "npx webpack --mode production",
+    "publish": "np"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "jest-playwright-preset": "^1.4.0",
     "lint-staged": "^10.5.1",
     "lodash.merge": "^4.6.2",
+    "np": "^7.0.0",
     "playwright": "^1.6.2",
     "prettier": "^2.1.2",
     "raw-loader": "^4.0.2",
@@ -85,5 +87,8 @@
       "pre-commit": "lint-staged",
       "pre-push": "npm test"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
