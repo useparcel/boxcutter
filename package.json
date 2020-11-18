@@ -1,0 +1,89 @@
+{
+  "name": "@useparcel/boxcutter",
+  "version": "0.0.0",
+  "description": "React component for displaying sandboxed HTML",
+  "main": "dist/ssr.js",
+  "browser": "dist/browser.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "npx webpack --mode production --watch",
+    "build": "npx webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/useparcel/boxcutter.git"
+  },
+  "author": "Avi Goldman <avi@useparcel.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/useparcel/boxcutter/issues"
+  },
+  "homepage": "https://github.com/useparcel/boxcutter#readme",
+  "peerDependencies": {
+    "react": "^17.0.0"
+  },
+  "dependencies": {
+    "@reach/rect": "^0.11.2",
+    "@react-hook/debounce": "^3.0.0",
+    "@react-hook/passive-layout-effect": "^1.2.1",
+    "detect-passive-events": "^2.0.1",
+    "diff-dom": "^4.2.1",
+    "lodash.get": "^4.4.2",
+    "lodash.throttle": "^4.1.1",
+    "md5": "^2.3.0",
+    "prop-types": "^15.7.2",
+    "serialize-error": "^7.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.0",
+    "babel-loader": "^8.2.1",
+    "browser-resolve": "^2.0.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "jest-playwright-preset": "^1.4.0",
+    "lint-staged": "^10.5.1",
+    "lodash.merge": "^4.6.2",
+    "playwright": "^1.6.2",
+    "prettier": "^2.1.2",
+    "raw-loader": "^4.0.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "webpack": "^5.5.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "eslintConfig": {
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "requireConfigFile": false
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+    },
+    "extends": [
+      "prettier"
+    ]
+  },
+  "lint-staged": {
+    "*.(js|json)": [
+      "prettier --write"
+    ],
+    "*.js": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  }
+}
