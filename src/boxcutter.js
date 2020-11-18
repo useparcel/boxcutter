@@ -171,7 +171,6 @@ export function Boxcutter({
         source,
       }}
     >
-      {frameId}
       {children}
     </BoxcutterContext.Provider>
   );
