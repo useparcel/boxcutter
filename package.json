@@ -8,7 +8,7 @@
     "test": "jest",
     "dev": "npx webpack --mode production --watch",
     "build": "npx webpack --mode production",
-    "publish": "np"
+    "release": "np"
   },
   "repository": {
     "type": "git",
