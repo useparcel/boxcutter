@@ -37,7 +37,6 @@ module.exports = [
    */
   {
     entry: `${__dirname}/src/preview/iframe/runner.js`,
-    devtool: "source-map",
     output: {
       path: `${__dirname}/dist/`,
       filename: "iframe-runner.js",
