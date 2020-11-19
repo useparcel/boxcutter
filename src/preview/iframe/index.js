@@ -8,7 +8,6 @@ export function createIframe({ id, ...attrs }) {
 
   attrs.srcdoc = generateDefaultHTML(id);
   attrs.style = attrs.style || defaultIframeStyles;
-  delete attrs.sandbox;
 
   for (let name of Object.keys(attrs)) {
     iframe.setAttribute(name, attrs[name]);
