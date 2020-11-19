@@ -47,7 +47,7 @@ export function Preview({ style, className, children }) {
     for (let js of Object.values(scripts)) {
       const script = document.createElement("script");
       head.appendChild(script);
-      script.appendChild(document.createTextNode(js));
+      script.appendChild(document.createTextNode(`(function() {${js}})()`));
     }
 
     setCompleteHTML(newDocument.outerHTML);
