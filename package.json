@@ -72,7 +72,10 @@
     },
     "extends": [
       "prettier"
-    ]
+    ],
+    "rules": {
+      "no-console": "error"
+    }
   },
   "lint-staged": {
     "*.(js|json)": [
