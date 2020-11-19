@@ -1,4 +1,4 @@
-import runner from "raw-loader!./runner";
+import runner from "!!raw-loader!./runner";
 
 /**
  * Create an iframe
