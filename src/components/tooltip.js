@@ -226,6 +226,7 @@ function ArrowWrapper({ rotate, invisible, children, left }) {
         visibility: invisible ? "hidden" : "visible",
         textAlign: "left",
         fontSize: 0,
+        zIndex: 1,
       }}
     >
       <span
