@@ -63,24 +63,31 @@ export const defaultIframeStyles = `
   border: 0;
 `;
 
-function generateDefaultHTML(frameId) {
-  return `
-    <html>
-    <head>
-    <script type="module" class="script">    
-      (function() {
-        const INITIAL_FRAME_ID = "${frameId}";
-        ${runner}
-      })();
+const MINIFIED_HTML = `
+<html>
+  <head>
+  <script type="module" class="script">    
+    (function() {
+      CODE
+    })();
 
-      /** clean up */
-      [...document.querySelectorAll(".script")].forEach((script) => {
-        script.parentNode.removeChild(script);
-      });
-    </script>
-    </head>
-    <body>
-    </body>
-    </html>
-  `;
+    /** clean up */
+    Array.prototype.slice.call(document.querySelectorAll(".script")).forEach((script) => {
+      script.parentNode.removeChild(script);
+    });
+  </script>
+  </head>
+  <body>
+  </body>
+</html>
+`
+  .split("\n")
+  .map((line) => line.trim())
+  .join("");
+
+function generateDefaultHTML(frameId) {
+  return MINIFIED_HTML.replace(
+    "CODE",
+    `const INITIAL_FRAME_ID = "${frameId}";${runner}\n`
+  );
 }
