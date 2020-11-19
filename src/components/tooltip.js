@@ -111,7 +111,6 @@ export function ToolTip({
     } else if (leftOffset + boxWidth < rightOffset && !hasSpaceLeft) {
       left = leftOffset;
       arrowLeft = max(horizontalMiddleOfTarget - left, 0);
-      console.log("here2");
     } else if (rightOffset - boxWidth > leftOffset && !hasSpaceRight) {
       left = rightOffset - boxWidth;
       /**
