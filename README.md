@@ -4,18 +4,16 @@ React component for displaying sandboxed HTML.
 
 It "cuts" open the "box" of HTML to see what's inside. 📦
 
-## The problem
+## Why Boxcutter?
 
 Boxcutter was made for Parcel, the code editor built for email development. It's goal is to display an email's content as a user codes it. The preview should update as fast as possible while not sacrificing the normal browser events that user's code expects. While the HTML/CSS/JS needs to be sandboxed, it needs to have "escape hatches" so that developer tools can be built on top of it. For example, Boxcutter needs to support a faux Inspect Element feature, which overlays the user's content to show the box model.
 
 Are you building a browser-based code editor a la codepen / jsbin? This is a great way to show the preview of the user's code in a safe way.
 
-## Installation
+## Install
 
-This module is distributed via npm. To install it run the following from your project directory.
-
-```sh
-npm i @useparcel/boxcutter
+```
+$ npm install @useparcel/boxcutter
 ```
 
 ## Usage
