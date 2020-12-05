@@ -59,21 +59,7 @@ module.exports = [
   merge({}, componentConfig, {
     target: "web",
     output: {
-      filename: "browser.js",
-    },
-  }),
-  /**
-   * Server side build
-   */
-  merge({}, componentConfig, {
-    target: "node",
-    output: {
-      filename: "ssr.js",
-    },
-    resolve: {
-      alias: {
-        "diff-dom": false,
-      },
+      filename: "index.js",
     },
   }),
 ];
