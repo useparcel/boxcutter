@@ -16,6 +16,7 @@ export const Overlay = forwardRef(function Overlay(
     interactive = false,
     zIndex = 1,
     onClick,
+    color,
     ...rest
   },
   ref
@@ -37,6 +38,7 @@ export const Overlay = forwardRef(function Overlay(
         ...(hasSize ? {} : { whiteSpace: "nowrap" }),
         ...style,
         background,
+        color,
         top,
         left,
         bottom,
