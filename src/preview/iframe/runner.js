@@ -285,6 +285,15 @@ function onMessageInternal(event) {
       } catch (e) {}
       break;
 
+    case "html-update":
+      const parser = new DOMParser();
+      const newDoc = parser.parseFromString(data, "text/html").documentElement;
+      dd.apply(
+        document.documentElement,
+        dd.diff(document.documentElement, newDoc)
+      );
+      break;
+
     case "write":
       const html = data;
       removeListeners();

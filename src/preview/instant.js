@@ -14,10 +14,24 @@ export default function InstantPreview({ source, ...props }) {
 
   const [controlledSource, setControlledSource] = useState(source);
 
+  useChangeEffect(
+    () => {
+      setControlledSource(source);
+    },
+    [source.id],
+    [source.id, source.html]
+  );
+
   /**
    * update preview handler
    */
+  const lastId = useRef();
   useEffect(() => {
+    if (lastId.current !== source.id) {
+      lastId.current = source.id;
+      return;
+    }
+
     if (isLoading || !dd || !domparser) {
       return;
     }
@@ -33,21 +47,22 @@ export default function InstantPreview({ source, ...props }) {
     if (!domTree.current) {
       emit("write", source.html);
     } else {
-      const diff = dd.diff(domTree.current, newTree);
+      // Diff's isn't working quite right
+      //
+      // Example:
+      // If you add an image:        <img src="https://source.unsplash.com/random" />
+      // Remove the end of the tag:  <img src="https://source.unsplash.com/random
+      // The image will disappear
+      // However you add it back in: <img src="https://source.unsplash.com/random" />
+      // The image will not reappear - this problem doesn't happen with the html-update method
+      // const diff = dd.diff(domTree.current, newTree);
+      // emit("update", diff)
 
-      emit("update", diff);
+      emit("html-update", source.html);
     }
 
     domTree.current = newTree;
   }, [isLoading, source.id, source.html, dd, domparser]);
-
-  useChangeEffect(
-    () => {
-      setControlledSource(source);
-    },
-    [source.id],
-    [source.id, source.html]
-  );
 
   return <RefreshPreview source={controlledSource} {...props} />;
 }
