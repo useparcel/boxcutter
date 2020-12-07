@@ -23,10 +23,13 @@ export default function InstantPreview({ source, finalMode, ...props }) {
   useChangeEffect(
     () => {
       isSourceChange.current = true;
-      setControlledSource(source);
+
+      if (finalMode === "instant") {
+        setControlledSource(source);
+      }
     },
     [source.id],
-    [source.id, source.html]
+    [source.id, source.html, finalMode]
   );
 
   /**
@@ -64,13 +67,17 @@ export default function InstantPreview({ source, finalMode, ...props }) {
    * Do refresh update when:
    * - mode is refresh
    */
-  useEffect(() => {
-    if (finalMode !== "refresh") {
-      return;
-    }
+  useChangeEffect(
+    () => {
+      if (finalMode !== "refresh") {
+        return;
+      }
 
-    setControlledSource(source);
-  }, [source.id, source.html, finalMode]);
+      setControlledSource(source);
+    },
+    [source.id, source.html],
+    [finalMode]
+  );
 
   return <RefreshPreview source={controlledSource} {...props} />;
 }
