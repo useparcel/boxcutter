@@ -156,6 +156,7 @@ export default function RefreshPreview({
        * When the source id changes, skip the debouncing
        */
       if (source.id !== lastSourceId.current) {
+        console.log('trigger refresh')
         updatePreview(context);
       } else {
         debouncedUpdatePreview(context);

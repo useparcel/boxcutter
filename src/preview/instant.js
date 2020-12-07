@@ -24,47 +24,56 @@ export default function InstantPreview({ source, ...props }) {
     [source.id, source.html]
   );
 
-  // block an instant refresh for 1 tick after it finishes loading
-  useEffect(() => {
-    setTimeout(() => {
-      isDoingRefresh.current = isLoading;
-    }, 0);
-  }, [isLoading]);
-
   /**
    * update preview handler
+   *
+   * 
+   * When the source.id is change a full refresh should take place `isLoading`
+   * takes a tick to update since the child is the one updating it (At least 
+   * I think that's the reason). Regardless, if we don't wrap this "instant"
+   * update in a requestAnimationFrame then it will fire before `isLoading` is 
+   * set to true and it'll mix the old source's conten with the new - that's bad.
+   *
+   *
+   * To combat this we do the update after the next animation frame. If `isLoading`
+   * is then set to `true` we cancel it and do an early return to prevent a new
+   * instant update timer from being created.
    */
+  const doUpdateTimeoutRef = useRef()
   useEffect(() => {
-    if (isDoingRefresh.current || isLoading || !dd || !domparser) {
-      return;
+    if (isLoading || !dd || !domparser) {
+      console.log('clear timeout')
+      return clearTimeout(doUpdateTimeoutRef.current)
     }
+    doUpdateTimeoutRef.current = setTimeout(() => {
+      console.log('timeout')
+      const newTree = dd.nodeToObj(
+        domparser.parseFromString(source.html, "text/html").documentElement
+      );
 
-    const newTree = dd.nodeToObj(
-      domparser.parseFromString(source.html, "text/html").documentElement
-    );
+      /**
+       * If we don't have an old DOM, do a full write.
+       * Otherwise, just send the iframe the diff to be applied
+       */
+      if (!domTree.current) {
+        emit("write", source.html);
+      } else {
+        // Diff's isn't working quite right
+        //
+        // Example:
+        // If you add an image:        <img src="https://source.unsplash.com/random" />
+        // Remove the end of the tag:  <img src="https://source.unsplash.com/random
+        // The image will disappear
+        // However you add it back in: <img src="https://source.unsplash.com/random" />
+        // The image will not reappear - this problem doesn't happen with the html-update method
+        // const diff = dd.diff(domTree.current, newTree);
+        // emit("update", diff)
 
-    /**
-     * If we don't have an old DOM, do a full write.
-     * Otherwise, just send the iframe the diff to be applied
-     */
-    if (!domTree.current) {
-      emit("write", source.html);
-    } else {
-      // Diff's isn't working quite right
-      //
-      // Example:
-      // If you add an image:        <img src="https://source.unsplash.com/random" />
-      // Remove the end of the tag:  <img src="https://source.unsplash.com/random
-      // The image will disappear
-      // However you add it back in: <img src="https://source.unsplash.com/random" />
-      // The image will not reappear - this problem doesn't happen with the html-update method
-      // const diff = dd.diff(domTree.current, newTree);
-      // emit("update", diff)
+        emit("html-update", source.html);
+      }
 
-      emit("html-update", source.html);
-    }
-
-    domTree.current = newTree;
+      domTree.current = newTree;
+    })
   }, [isDoingRefresh, isLoading, source.id, source.html, dd, domparser]);
 
   return <RefreshPreview source={controlledSource} {...props} />;
