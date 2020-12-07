@@ -26,17 +26,13 @@ export function Preview({ style, className, children }) {
   /**
    * set the HTML content with the script and styles injected
    */
-  const domparser = useDOMParser();
-  const [completeHTML, setCompleteHTML] = useState("");
+  const parse = useDOMParser();
+  const [completeSource, setCompleteSource] = useState({ id: "", html: "" });
   const [derivedMode, setDerivedMode] = useState(mode);
   useEffect(() => {
-    if (!domparser) return;
+    if (!parse) return;
 
-    const newDocument = domparser.parseFromString(
-      source.html || "",
-      "text/html"
-    ).documentElement;
-
+    const newDocument = parse(source.html);
     const head = newDocument.querySelector("head");
     for (let css of Object.values(styles)) {
       const style = document.createElement("style");
@@ -50,9 +46,12 @@ export function Preview({ style, className, children }) {
       script.appendChild(document.createTextNode(`(function() {${js}})()`));
     }
 
-    setCompleteHTML(newDocument.outerHTML);
+    setCompleteSource({
+      id: source.id,
+      html: newDocument.outerHTML,
+    });
     setDerivedMode(newDocument.querySelector("script") ? "refresh" : "instant");
-  }, [domparser, source.html, styles, scripts]);
+  }, [parse, source.id, source.html, styles, scripts]);
 
   /**
    * Get the mode to use - if it's auto, use the derived value
@@ -68,10 +67,7 @@ export function Preview({ style, className, children }) {
 
   const previewProps = {
     frameId,
-    source: {
-      id: source.id,
-      html: completeHTML,
-    },
+    source: completeSource,
     title,
     allow,
     sandbox,
