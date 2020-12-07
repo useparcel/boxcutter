@@ -13,26 +13,29 @@ export default function InstantPreview({ source, ...props }) {
   const { isLoading, set, emit } = useBoxcutterInternal();
 
   const [controlledSource, setControlledSource] = useState(source);
+  const isDoingRefresh = useRef(false);
 
   useChangeEffect(
     () => {
       setControlledSource(source);
+      isDoingRefresh.current = true;
     },
     [source.id],
     [source.id, source.html]
   );
 
+  // block an instant refresh for 1 tick after it finishes loading
+  useEffect(() => {
+    setTimeout(() => {
+      isDoingRefresh.current = isLoading;
+    }, 0);
+  }, [isLoading]);
+
   /**
    * update preview handler
    */
-  const lastId = useRef();
   useEffect(() => {
-    if (lastId.current !== source.id) {
-      lastId.current = source.id;
-      return;
-    }
-
-    if (isLoading || !dd || !domparser) {
+    if (isDoingRefresh.current || isLoading || !dd || !domparser) {
       return;
     }
 
@@ -62,7 +65,7 @@ export default function InstantPreview({ source, ...props }) {
     }
 
     domTree.current = newTree;
-  }, [isLoading, source.id, source.html, dd, domparser]);
+  }, [isDoingRefresh, isLoading, source.id, source.html, dd, domparser]);
 
   return <RefreshPreview source={controlledSource} {...props} />;
 }

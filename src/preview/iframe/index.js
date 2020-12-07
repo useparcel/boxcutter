@@ -46,9 +46,8 @@ export function waitUntilEvent(frameId, name) {
 }
 
 export const invisibleIframeStyles = `
-  height: 0;
-  width: 0;
-  overflow: hidden;
+  height: 100%;
+  width: 100%;
   border: 0;
   visibility: hidden;
   pointer-events: none;
