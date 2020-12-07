@@ -36,7 +36,6 @@ export const Overlay = forwardRef(function Overlay(
         boxSizing: "border-box",
         margin: "auto",
         ...(hasSize ? {} : { whiteSpace: "nowrap" }),
-        ...style,
         background,
         color,
         top,
@@ -46,6 +45,7 @@ export const Overlay = forwardRef(function Overlay(
         zIndex,
         height: isUndefined(height) ? size : height,
         width: isUndefined(width) ? size : width,
+        ...style,
         pointerEvents: interactive ? "auto" : "none",
       }}
       {...rest}
