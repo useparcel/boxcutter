@@ -1,24 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import equals from "array-equal";
 
 export default function useChangeEffect(
   cb,
   changeDependencies = [],
   dependencies = []
 ) {
-  const [isFirst, setIsFirst] = useState(true);
-  const [shouldRerun, setShouldRerun] = useState(false);
+  const isFirst = useRef(true);
+  const changeDependenciesRef = useRef(changeDependencies);
   useEffect(() => {
-    if (isFirst) {
-      setIsFirst(false);
-    } else {
-      setShouldRerun(true);
+    if (isFirst.current) {
+      isFirst.current = false;
+      return;
     }
-  }, [isFirst, ...changeDependencies]);
 
-  useEffect(() => {
-    if (shouldRerun) {
-      setShouldRerun(false);
+    if (!equals(changeDependencies, changeDependenciesRef.current)) {
+      changeDependenciesRef.current = changeDependencies;
       cb();
     }
-  }, [cb, shouldRerun, ...changeDependencies, ...dependencies]);
+  }, [cb, ...changeDependencies, ...dependencies]);
 }
