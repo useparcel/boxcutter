@@ -107,6 +107,7 @@ function OverlayContainer({ children }) {
         left: 0,
         pointerEvents: "none",
         overflow: "hidden",
+        transform: "translate3d(0,0,0)", // create a new stacking context
       }}
     >
       <div
