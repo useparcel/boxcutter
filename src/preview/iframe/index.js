@@ -49,7 +49,7 @@ export const invisibleIframeStyles = `
   height: 100%;
   width: 100%;
   border: 0;
-  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   position: absolute;
   top: 0;
