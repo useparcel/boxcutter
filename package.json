@@ -26,6 +26,7 @@
     "@reach/rect": "^0.11.2",
     "@react-hook/debounce": "^3.0.0",
     "@react-hook/passive-layout-effect": "^1.2.1",
+    "array-equal": "^1.0.0",
     "detect-passive-events": "^2.0.1",
     "diff-dom": "^4.2.1",
     "lodash.get": "^4.4.2",
