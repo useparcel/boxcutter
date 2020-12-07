@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export default function useDOMParser() {
   const [parser, setParser] = useState();
@@ -6,5 +6,12 @@ export default function useDOMParser() {
     setParser(new DOMParser());
   }, []);
 
-  return parser;
+  const parse = useCallback(
+    (html = "") => {
+      return parser.parseFromString(html, "text/html").documentElement;
+    },
+    [parser]
+  );
+
+  return parser && parse;
 }
