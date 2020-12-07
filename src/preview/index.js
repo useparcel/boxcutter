@@ -58,13 +58,6 @@ export function Preview({ style, className, children }) {
    */
   const finalMode = mode === "auto" ? derivedMode : mode;
 
-  /**
-   * Set isLoading to true when switching contexts
-   */
-  useEffect(() => {
-    set((c) => ({ ...c, isLoading: true }));
-  }, [finalMode]);
-
   const previewProps = {
     frameId,
     source: completeSource,
@@ -73,12 +66,12 @@ export function Preview({ style, className, children }) {
     sandbox,
     options,
     setIframe,
+    finalMode,
   };
 
   return (
     <div className={className} style={{ position: "relative", ...style }}>
-      {finalMode === "instant" && <InstantPreview {...previewProps} />}
-      {finalMode === "refresh" && <RefreshPreview {...previewProps} />}
+      <InstantPreview {...previewProps} />
       <OverlayContainer>{children}</OverlayContainer>
     </div>
   );

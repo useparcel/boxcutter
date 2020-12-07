@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createIframe, waitUntilEvent } from "./iframe";
 import { useBoxcutterInternal, useBoxcutterEvent } from "../context";
-import useDOMParser from "../hooks/use-dom-parser";
 import RefreshPreview from "./refresh";
 import useChangeEffect from "../hooks/use-change-effect";
 
-export default function InstantPreview({ source, ...props }) {
-  const parse = useDOMParser();
-  const domTree = useRef();
+export default function InstantPreview({ source, finalMode, ...props }) {
   const { isLoading, set, emit } = useBoxcutterInternal();
 
   /**
@@ -40,24 +37,40 @@ export default function InstantPreview({ source, ...props }) {
       if (!isLoading) {
         isSourceChange.current = false;
 
-        emit("html-update", source.html);
+        if (finalMode === "instant") {
+          emit("html-update", source.html);
+        }
       }
     },
     [isLoading],
-    [source.html]
+    [source.html, finalMode]
   );
 
   /**
-   * Do the instant update when the iframe isn't loading and the source.id
-   * isn't changing
+   * Do the instant update when:
+   * - mode is instant
+   * - the iframe isn't loading
+   * - the source.id isn't changing
    */
   useEffect(() => {
-    if (isLoading || !parse || isSourceChange.current) {
+    if (finalMode !== "instant" || isLoading || isSourceChange.current) {
       return;
     }
 
     emit("html-update", source.html);
-  }, [source.id, source.html, parse]);
+  }, [source.id, source.html, finalMode]);
+
+  /**
+   * Do refresh update when:
+   * - mode is refresh
+   */
+  useEffect(() => {
+    if (finalMode !== "refresh") {
+      return;
+    }
+
+    setControlledSource(source);
+  }, [source.id, source.html, finalMode]);
 
   return <RefreshPreview source={controlledSource} {...props} />;
 }
