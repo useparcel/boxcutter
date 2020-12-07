@@ -1,6 +1,6 @@
 {
   "name": "@useparcel/boxcutter",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "React component for displaying sandboxed HTML",
   "main": "dist/index.js",
   "scripts": {
