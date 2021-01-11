@@ -13,7 +13,7 @@ export function createIframe({ id, ...attrs }) {
     iframe.setAttribute(name, attrs[name]);
   }
 
-  iframe.publishEvent = (name, data, runId) => {
+  iframe.publishEvent = (name, data = null, runId) => {
     let message = {
       name,
       data: JSON.parse(JSON.stringify(data)),
