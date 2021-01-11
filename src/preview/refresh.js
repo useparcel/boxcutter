@@ -45,14 +45,20 @@ export default function RefreshPreview({
    * Load in content on first load
    */
   useEffect(() => {
-    waitUntilEvent(frameId, "DOMContentLoaded").then(() => {
-      iframeRef.current.publishEvent("write", source.html);
-      set((c) => ({ ...c, isLoading: false }));
-      iframeRef.current.publishEvent("scroll", {
-        scrollTop: 0,
-        scrollLeft: 0,
+    waitUntilEvent(frameId, "DOMContentLoaded")
+      .then(() => {
+        iframeRef.current.publishEvent("write", source.html);
+        return waitUntilEvent(frameId, "load");
+      })
+      .then(() => {
+        setTimeout(() => {
+          set((c) => ({ ...c, isLoading: false }));
+        }, 1000);
+        iframeRef.current.publishEvent("scroll", {
+          scrollTop: 0,
+          scrollLeft: 0,
+        });
       });
-    });
   }, []);
 
   /**

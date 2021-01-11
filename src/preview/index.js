@@ -71,7 +71,11 @@ export function Preview({ style, className, children }) {
 
   return (
     <div className={className} style={{ position: "relative", ...style }}>
-      <InstantPreview {...previewProps} />
+      {completeSource.id === "" ? (
+        <div style={{ height: "100%", width: "100%" }} />
+      ) : (
+        <InstantPreview {...previewProps} />
+      )}
       <OverlayContainer>{children}</OverlayContainer>
     </div>
   );
